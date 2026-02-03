@@ -100,7 +100,6 @@ const Expense = () => {
     };
   };
 
-
   //handle download expense details
   const handleDownloadExpenseDetails = async () => {
     try {

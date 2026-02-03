@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:8080";
+export const BASE_URL = "https://expensetracker-backend-t2i2.onrender.com";
 
 export const API_PATHS = {
   AUTH: {

@@ -26,7 +26,8 @@ export const API_PATHS = {
   },
 
   IMAGE: {
-     UPLOAD_IMAGE: `${BASE_URL}/api/upload`,
+     UPLOAD_IMAGE: `${BASE_URL}/api/files/upload`,
+     UPDATE_PROFILE: "/api/files/update/profile",
   },
 };
 

@@ -18,7 +18,7 @@ const RecentIncomeWithChart = ({data,totalIncome}) => {
 
     useEffect(()=>{
         prepareChartData();
-        console.log("RecentIncomeWithChart data:", data); 
+        // console.log("RecentIncomeWithChart data:", data); 
         return()=>{};
     },[data]);
 

@@ -26,8 +26,11 @@ const SignUp = () => {
   e.preventDefault();
 
   if (!fullName) return setError("Please enter your name.");
-  if (!validateEmail(email)) return setError("Please enter a valid email.");
-  if (!password) return setError("Please enter the password.");
+if (!validateEmail(email)) return setError("Please enter a valid email.");
+if (!password) return setError("Please enter the password.");
+if (password.length < 6)
+  return setError("Password length should be at least 6 characters.");
+
 
   setError("");
 
@@ -95,7 +98,7 @@ profileImageUrl = uploadRes.imageUrl || "";
                 value={password}
                 onChange={({ target }) => setPassword(target.value)}
                 label="Password"
-                placeholder="Min 8 characters"
+                placeholder="Min 6 characters"
                 type="password"
               />
             </div>

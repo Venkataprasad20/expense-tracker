@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; 
+import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../components/layouts/AuthLayout';
 import Input from '../../components/Inputs/Input';
-import { validateEmail } from '../../utils/helper'; 
+import { validateEmail } from '../../utils/helper';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
 import { UserContext } from '../../context/userContext';
@@ -13,19 +13,19 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const {updateUser}=useContext(UserContext);
+  const { updateUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     // Add your login logic here
-    if(!validateEmail(email)) {
+    if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    if(!password){
+    if (!password) {
       setError("please enter your password.");
       return;
     }
@@ -38,22 +38,37 @@ const Login = () => {
         email,
         password,
       });
-      const { token,user } = response.data;
+      const { token, user } = response.data;
 
-      if(token){
+      if (token) {
         localStorage.setItem('accessToken', token);
         updateUser(user);
         navigate('/dashboard');
       }
-  } catch (error) {
-    if(error.response && error.response.data.message){
-      setError(error.response.data.message);
+    } catch (error) {
+
+      // 🔥 Cold start / timeout / server not responding
+      if (!error.response) {
+        setError("Server is waking up (cold start). Please wait 1–2 minutes and try again.");
+      }
+
+      // 🔥 Timeout error
+      else if (error.code === "ECONNABORTED") {
+        setError("Server is taking longer than expected to respond. It may be starting up. Please try again.");
+      }
+
+      // 🔥 Backend validation errors
+      else if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      }
+
+      // 🔥 Fallback
+      else {
+        setError("Unexpected error occurred. Please try again.");
+      }
     }
-    else{
-      setError("Something went wrong. Please try again later.");
-    }
-  }
-};  
+
+  };
 
   return (
     <AuthLayout>
